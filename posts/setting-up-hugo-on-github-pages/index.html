@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en-us">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		
+		
+		
+		<meta name="generator" content="Hugo 0.38.1" />
+		<title>Setting up Hugo on Github Pages &middot; Code Scare</title>
+		<link rel="shortcut icon" href="https://pulsejet.github.io/blog/images/favicon.ico">
+		<link rel="stylesheet" href="https://pulsejet.github.io/blog/css/style.css">
+		<link rel="stylesheet" href="https://pulsejet.github.io/blog/css/highlight.css">
+
+		
+		<link rel="stylesheet" href="https://pulsejet.github.io/blog/css/monosocialiconsfont.css">
+		
+
+		
+
+		
+	</head>
+
+    <body>
+       <nav class="main-nav">
+	
+	
+		<a href='https://pulsejet.github.io/blog/'> <span class="arrow">←</span>Home</a>
+	
+	<a href='https://pulsejet.github.io/blog/posts'>Archive</a>
+	<a href='https://pulsejet.github.io/blog/tags'>Tags</a>
+	<a href='https://pulsejet.github.io/blog/about'>About</a>
+
+	
+
+	
+</nav>
+
+
+        <section id="wrapper" class="post">
+            <article>
+                <header>
+                    <h1>
+                        Setting up Hugo on Github Pages
+                    </h1>
+                    <h2 class="headline">
+                    Feb 18, 2018 14:31
+                    · 625 words
+                    · 3 minute read
+                      <span class="tags">
+                      
+                      </span>
+                    </h2>
+                </header>
+                
+                <section id="post-body">
+                    
+
+<p>At the time of writing this, this blog itself is hosted on <a href="http://github.io">GitHub Pages</a> and is built with the static site generator <a href="https://gohugo.io/">Hugo</a>, and since this is just the second post, I&rsquo;ll go into some detail explaining how to setup Hugo properly (or at least the way I did it), which should be a matter of minutes even if you are not so experienced with these sort of things! If you follow the steps exactly, you&rsquo;ll have a blog up and running in no time!</p>
+
+<p>If you are comfortable with the process of setting up GitHub Pages and site generators, I suggest heading over to the official <a href="https://gohugo.io/getting-started/quick-start/">Quick Start</a> guide instead.</p>
+
+<h2 id="prerequisites">Prerequisites</h2>
+
+<ul>
+<li>Basics of git</li>
+<li>Basics of <a href="https://lifehacker.com/5943320/what-is-markdown-and-why-is-it-better-for-my-to-do-lists-and-notes">markdown</a></li>
+<li>Hugo is <a href="https://gohugo.io/getting-started/installing">downloaded</a> and added to PATH. You have done this properly if you can run <code>hugo version</code> from anywhere.</li>
+</ul>
+
+<h1 id="let-s-start">Let&rsquo;s Start!</h1>
+
+<p>So now we&rsquo;re all set to create our own blog!</p>
+
+<p>First, if you don&rsquo;t have it already, start by setting up an account on GitHub, which you will need to use GitHub&rsquo;s Pages service (which is free). For this, just head over to <a href="https://github.com">GitHub</a> and create a new account. Choose your username wisely, because your blog&rsquo;s URL will have your username in it. For example, by default, if your username is <strong>hello-world</strong>, then your blog&rsquo;s URL will be <strong>hello-world.github.io</strong>!</p>
+
+<p>Once you have an account, head over to GitHub again, and create a new repository and name it <strong>your-username.github.io</strong>, replacing <strong>your-username</strong> as appropriate. Check <strong>Initialize this repository with a README</strong> and create the repository. Clone the repository into any local folder with git.</p>
+
+<h2 id="create-the-website">Create the Website</h2>
+
+<p>Inside the repository, you can now create a new site by running</p>
+
+<pre><code>hugo new site mysite
+</code></pre>
+
+<p>This will create a folder named <code>mysite</code> with a bunch of files that define our site. <code>cd</code> over to this folder.
+First, head over to <code>config.toml</code> and change <code>baseURL</code> as</p>
+
+<pre><code>baseURL = &quot;https://your-username.github.io/&quot;
+</code></pre>
+
+<h2 id="add-a-theme">Add a Theme</h2>
+
+<p>For this example, I&rsquo;ll be using the <a href="https://github.com/nodejh/hugo-theme-cactus-plus">cactus-plus</a> theme, which I think is very clean and tidy. Add this theme by running</p>
+
+<pre><code>git submodule add https://github.com/nodejh/hugo-theme-cactus-plus themes/cactusplus
+</code></pre>
+
+<p>You still need to update your site to use this theme. For this, add the following line to <code>config.toml</code></p>
+
+<pre><code>theme = &quot;cactusplus&quot;
+</code></pre>
+
+<h2 id="add-some-content">Add Some Content</h2>
+
+<p>Next, we need to add a post to our site. For this, run the following command</p>
+
+<pre><code>hugo new posts/my-first-post.md
+</code></pre>
+
+<p>This will create a new file <code>contents/posts/my-first-post.md</code>. This is a regular markdown file that you can edit as you want, which has the contents of the post. Be sure not to accidentally delete the header in the file. For now, you may start by adding some dummy content. Note that this post is marked as a draft, so it won&rsquo;t be visible on the site.</p>
+
+<h2 id="try-it-out">Try it out!</h2>
+
+<p>Go back to the root directory of Hugo (the directory with <code>config.toml</code>) and run the following command</p>
+
+<pre><code>hugo server -D
+</code></pre>
+
+<p>This should start a local Hugo server, which the <code>-D</code> indicating that drafts should be visible. Head over to the URL that is printed, and the page will be served! Now you can start adding content to your posts and also add dozens of posts. When you save a post, the browser will automatically refresh it, so you can see live changes.</p>
+
+<h2 id="deploying-it">Deploying it</h2>
+
+<p>The last part is to publish the site to GitHub Pages. In config.toml, add the following line</p>
+
+<pre><code>publishDir = &quot;..&quot;
+</code></pre>
+
+<p>This will make Hugo output its files in the root of your repository, allowing GitHub Pages to serve it properly. Next, mark all posts you are satisfied with as completed by deleting the line <code>draft=true</code> from the header. To build your site, just run</p>
+
+<pre><code>hugo
+</code></pre>
+
+<p>and you&rsquo;re done! To see your blog in action, just commit and push to GitHub and visit <strong>your-username.github.io</strong>.</p>
+
+<p><em>Happy Blogging!</em></p>
+
+                </section>
+            </article>
+
+            
+
+            
+
+            
+
+            <footer id="footer">
+    
+    <p class="small">
+    
+       © Copyright 2018 <i class="fa fa-heart" aria-hidden="true"></i> 
+    
+    </p>
+    <p class="small">
+        Powered by <a href="http://www.gohugo.io/">Hugo</a> Theme By <a href="https://github.com/nodejh/hugo-theme-cactus-plus">nodejh</a>
+    </p>
+</footer>
+
+        </section>
+
+        <script src="https://pulsejet.github.io/blog/js/jquery-3.3.1.min.js"></script>
+<script src="https://pulsejet.github.io/blog/js/main.js"></script>
+<script src="https://pulsejet.github.io/blog/js/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+
+
+
+
+
+
+    </body>
+</html>

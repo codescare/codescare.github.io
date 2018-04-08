@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en-us">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		
+		
+		
+		<meta name="generator" content="Hugo 0.38.1" />
+		<title>HATEOAS - The Good, the Bad and the Ugly &middot; Code Scare</title>
+		<link rel="shortcut icon" href="https://pulsejet.github.io/blog/images/favicon.ico">
+		<link rel="stylesheet" href="https://pulsejet.github.io/blog/css/style.css">
+		<link rel="stylesheet" href="https://pulsejet.github.io/blog/css/highlight.css">
+
+		
+		<link rel="stylesheet" href="https://pulsejet.github.io/blog/css/monosocialiconsfont.css">
+		
+
+		
+
+		
+	</head>
+
+    <body>
+       <nav class="main-nav">
+	
+	
+		<a href='https://pulsejet.github.io/blog/'> <span class="arrow">←</span>Home</a>
+	
+	<a href='https://pulsejet.github.io/blog/posts'>Archive</a>
+	<a href='https://pulsejet.github.io/blog/tags'>Tags</a>
+	<a href='https://pulsejet.github.io/blog/about'>About</a>
+
+	
+
+	
+</nav>
+
+
+        <section id="wrapper" class="post">
+            <article>
+                <header>
+                    <h1>
+                        HATEOAS - The Good, the Bad and the Ugly
+                    </h1>
+                    <h2 class="headline">
+                    Feb 20, 2018 18:51
+                    · 1707 words
+                    · 9 minute read
+                      <span class="tags">
+                      
+                      </span>
+                    </h2>
+                </header>
+                
+                <section id="post-body">
+                    
+
+<p>If you are working on a RESTful API, chances are that you have read or heard (I&rsquo;ll explain soon how it is pronounced) the word HATEOAS sometime while browsing best practices, technologies or about APIs in general. Wikipedia defines it as</p>
+
+<blockquote>
+<p>Hypermedia As The Engine Of Application State (HATEOAS) is a constraint of the REST application architecture that distinguishes it from other network application architectures.</p>
+</blockquote>
+
+<p>but (in my opinion), it doesn&rsquo;t really explain much about how you are supposed to use it, or what the advantages (and disadvantages, if any) of using it are. I&rsquo;m going to try to address these things in this post. Beware that I&rsquo;m myself somewhat of a beginner in this, so I wouldn&rsquo;t advise following anything blindly if you are building an industry-grade enterprise application!</p>
+
+<h2 id="introduction">Introduction</h2>
+
+<p>So, first, how do say it? There isn&rsquo;t really a consensus on this, but apparently, the most common pronounciation is goes as <em>hay-tee-ous</em>, which sounds somewhat like <em>hideous</em>.</p>
+
+<p>Now that we have that aside, I want to give you a breif intoduction to what HATEOAS really is. For this, let us consider a simple API for the canonical blog-post database, with an additional table for users, who may comment on blog posts etc.</p>
+
+<p>Suppose you have an endpoint that gets a post object, along with the comments on the post. This would look something like this</p>
+
+<pre><code class="language-javascript">{
+    postName: &quot;Some Post&quot;,
+    description: &quot;An amazing blog post&quot;,
+    body: &quot;Not such an amazing body&quot;,
+    comments: [
+        {
+            name: &quot;User 1&quot;,
+            comment: &quot;Hey, this post is terrible!&quot;
+        },
+        {
+            name: &quot;User 2&quot;,
+            comment: &quot;I love this post, I read it daily ... visit my website now&quot;
+        },
+        {
+            name: &quot;User 3&quot;,
+            comment: &quot;What...?&quot;
+        }
+    ]
+}
+</code></pre>
+
+<p>I want to pause here and emphasize that JSON not a standard format for HATEOAS. To properly implement it, you have to use hypermedia, or more specifically, something like XML is the proper way to implement it. However, JSON is really easy to parse and we do want that functionality, I will assume that we are using it for our API.</p>
+
+<p>Suppose, for whatever reason, a comment can further be opened and there are more details in it such as the time of commenting, IP address etc. which are given by a separate API. To implement this, the server may just include a UID with the comment, which the client can now use to generate a new API url.</p>
+
+<p>Now, lets bring in HATEOAS. With HATEOAS, your response would look like this</p>
+
+<pre><code class="language-javascript">{
+    postName: &quot;Some Post&quot;,
+    description: &quot;An amazing blog post&quot;,
+    body: &quot;Not such an amazing body&quot;,
+    links: [
+        {
+            rel: &quot;self&quot;,
+            href: &quot;http://blog.example.com/api/some-post&quot;
+        }
+    ]
+    comments: [
+        {
+            name: &quot;User 1&quot;,
+            comment: &quot;Hey, this post is terrible!&quot;,
+            links: [
+                {
+                    rel: &quot;self&quot;,
+                    href: &quot;http://blog.example.com/api/some-post/comments/1&quot;
+                }
+            ]
+        },
+        {
+            name: &quot;User 2&quot;,
+            comment: &quot;I love this post, I read it daily ... visit my website now&quot;,
+            links: [
+                {
+                    rel: &quot;self&quot;,
+                    href: &quot;http://blog.example.com/api/some-post/comments/2&quot;
+                }
+            ]
+        },
+        {
+            name: &quot;User 3&quot;,
+            comment: &quot;What...?&quot;,
+            links: [
+                {
+                    rel: &quot;self&quot;,
+                    href: &quot;http://blog.example.com/api/some-post/comments/3&quot;
+                }
+            ]
+        }
+    ]
+}
+</code></pre>
+
+<p>Don&rsquo;t be scared by how large this looks! If you look carefully, we have just added one URL corresponding to the object to each entity. Notice that we also have another field <code>rel</code>, which indicates that it represents the entity itself (this will come up again later). Now, if the client wanted to get the comment, it can simply look for a link with <code>rel</code> as <code>self</code> and follow it! No need to create a URL by concatenating strings, looking at the state and so on!</p>
+
+<p>But again, you might ask, what real use is this, when we can simply get the URL by the UID anyway. This brings us to,</p>
+
+<h2 id="the-good">The Good</h2>
+
+<h3 id="1-authorization">1. Authorization</h3>
+
+<p>Now suppose you want to let the users edit their comments, you have a few options (which don&rsquo;t use HATEOAS):</p>
+
+<ol>
+<li>Let users see the edit button for all comments, but the server will authorize them only if they have access. Horrible!</li>
+<li>Let the client make a separate requests to acknowledge what permissions the user has, hiding and showing things appropriately.</li>
+<li>Let the reply include a flag if the post can be edited by the current user.</li>
+<li>Probably many more &hellip;</li>
+</ol>
+
+<p>Instead of all this, if you use HATEOAS, the whole logic becomes much more natural and easier to work with. While returning the data to the client, the server simply checks if the post can be edited and return a response with</p>
+
+<pre><code class="language-javascript">comments: [
+        {
+            name: &quot;User 1&quot;,
+            comment: &quot;Hey, this post is terrible!&quot;,
+            links: [
+                {
+                    rel: &quot;self&quot;,
+                    href: &quot;http://blog.example.com/api/some-post/comments/1&quot;
+                },
+                {
+                    rel: &quot;update&quot;,
+                    href: &quot;http://blog.example.com/api/some-post/comments/1/update&quot;
+                }
+            ]
+        },
+        {
+            name: &quot;User 2&quot;,
+            comment: &quot;I love this post, I read it daily ... visit my website now&quot;,
+            links: [
+                {
+                    rel: &quot;self&quot;,
+                    href: &quot;http://blog.example.com/api/some-post/comments/2&quot;
+                }
+            ]
+        }
+]
+</code></pre>
+
+<p>Notice that the entry for comment <code>1</code> has another link in it now, pointing to an update URL. The authorized user&rsquo;s client can now simply follow this link and send an update to the server. If the link isn&rsquo;t preset, it already knows that updating is not possible. Further, it actually doesn&rsquo;t know the URL for updating the comment, which might give you an added security advantage.</p>
+
+<h3 id="2-maintainability">2. Maintainability</h3>
+
+<p>Suppose now you update your API to version 2, after realizing that your structure was not so great, but this ends up changing the URL that must be used to update comments to <code>http://blog.example.com/api/some-post/comments/1/modify</code>. If you are not using HATEOAS, you will also need to make sure that all client application implementations change the URL generators appropriately. With HATEOAS, however, this makes absolutely no difference to the client, since it will just call the new URL that will be sent by the server! This may not be an issue with small applications, but even for a mid-sized application, it gives great flexibility to the API maker.</p>
+
+<h3 id="3-tracking">3. Tracking</h3>
+
+<p>With this, you can now also generate unique URLs for actions, enabling you to track all actions automatically without intervention from the client. Further, tracking actually is completely unblockable now, since it is inherently built into the systems. You can easily figure out which was the previous call done by the user from the same session, what is the flow of calls and so on.</p>
+
+<h3 id="4-server-control">4. Server Control</h3>
+
+<p>Effectively, the status of the client application is completely determined by the server&rsquo;s response, which might place you at a huge advantage, not only in terms of security, but also for ease of programming. The client will tend to be more minimalistic, and things are just more deterministic for the server, since an illegal request due to a programming bug is completely unwarranted for now. It also reduces the number of bad requests, since each request is checked by the server itself, before it is sent out to the client.</p>
+
+<h3 id="5-ease">5. Ease</h3>
+
+<p>Seriously, it is much easier for the client to use ready-made links that generating them itself!</p>
+
+<p>All this seems good, but as usual, there are a few things that aren&rsquo;t so great about this, which can be summarised as,</p>
+
+<h2 id="the-bad">The Bad</h2>
+
+<h3 id="1-harder-to-implement">1. Harder to Implement</h3>
+
+<p>While getting URLs from the server is convenient for the client, generating URLs is now something that the backend programmer is responsible for now. This effectively makes it much harder to write the backend for an API which implements HATEOAS.</p>
+
+<h3 id="2-needs-more-resources">2. Needs More Resources</h3>
+
+<p>While this may not be a big concern, including all those URLs in your response and storing them on the client will put some stress on network and memory. Of these, again, network will not be an issue in most cases unless there are a huge number of items since the response will be sent compressed, but it will definitely have some impact on memory usage. Further, it might just be much easier to concatenate a predefined template and a UID to get a URL than looking through hundreds of records to find one.</p>
+
+<h3 id="3-tracking-1">3. Tracking</h3>
+
+<p>HATEOAS offers unblockable tracking. And every coin has two sides!</p>
+
+<h3 id="4-reduces-flexibility">4. Reduces Flexibility</h3>
+
+<p>Not allowing the client to make its own URLs does reduce flexibility in some cases, especially where the client behaves highly unpredictably. Everything that can be done is already pre-defined by the server, giving the client limited options.</p>
+
+<h3 id="5-unnecessary-for-small-applications">5. Unnecessary for Small Applications</h3>
+
+<p>If your application has only a few users and a single client with only minimalistic, there is no point adding the overhead of HATEOAS, since you can easily update anything as required.</p>
+
+<p>I wanted to highlight a couple of other, but couldn&rsquo;t really fit them into any of these, so I&rsquo;ll instead label them as,</p>
+
+<h2 id="the-ugly">The Ugly</h2>
+
+<h3 id="1-deep-linking">1. Deep Linking</h3>
+
+<p>Deep Linking can be a real pain to achieve with HATEOAS, since the state of the application is defined by the server, and hence visiting a URL that defines the state needs an understanding between the server and the client, or the client needs to store the state itself in the URL. One way to achieve the latter is by encoding the <code>self</code> link of the object and passing through the URL. This effectively stores the state as long as the URLs generated do not have an expiry.</p>
+
+<h3 id="2-excessive-information">2. Excessive Information</h3>
+
+<p>You will end up with too much unnecessary information on the client that you will probably never use. While this is not really a big issue, it somehow feels like going backwards!</p>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p>So, is HATEOAS worth it? If you are looking to build a new modern API that is strictly RESTful, then <em>yes</em>, you should use HATEOAS, since it is one of the constraints of ReST, and is rather useful too! If you are building a small time application that doesn&rsquo;t need to be too maintainable, or if you are going to be the only maintainer for a long time, I really don&rsquo;t think it is worth the effort. For existing projects, it would really depend how everything is implemented, but while implementing it on the server side should not be too much effort (since it is non-intrusive, in the sense that traditional calls would continue working anyway), updating the clients would probably involve reworking everything they have. Either way, <em>if you have the resources, do it. If you don&rsquo;t, you could end up wasting them.</em></p>
+
+                </section>
+            </article>
+
+            
+
+            
+
+            
+
+            <footer id="footer">
+    
+    <p class="small">
+    
+       © Copyright 2018 <i class="fa fa-heart" aria-hidden="true"></i> 
+    
+    </p>
+    <p class="small">
+        Powered by <a href="http://www.gohugo.io/">Hugo</a> Theme By <a href="https://github.com/nodejh/hugo-theme-cactus-plus">nodejh</a>
+    </p>
+</footer>
+
+        </section>
+
+        <script src="https://pulsejet.github.io/blog/js/jquery-3.3.1.min.js"></script>
+<script src="https://pulsejet.github.io/blog/js/main.js"></script>
+<script src="https://pulsejet.github.io/blog/js/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+
+
+
+
+
+
+    </body>
+</html>

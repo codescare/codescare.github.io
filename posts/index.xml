@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Posts on Code Scare</title>
+    <link>https://pulsejet.github.io/blog/posts/</link>
+    <description>Recent content in Posts on Code Scare</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 20 Feb 2018 18:51:13 +0530</lastBuildDate>
+    
+	<atom:link href="https://pulsejet.github.io/blog/posts/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>HATEOAS - The Good, the Bad and the Ugly</title>
+      <link>https://pulsejet.github.io/blog/posts/hateoas/</link>
+      <pubDate>Tue, 20 Feb 2018 18:51:13 +0530</pubDate>
+      
+      <guid>https://pulsejet.github.io/blog/posts/hateoas/</guid>
+      <description>If you are working on a RESTful API, chances are that you have read or heard (I&amp;rsquo;ll explain soon how it is pronounced) the word HATEOAS sometime while browsing best practices, technologies or about APIs in general. Wikipedia defines it as
+ Hypermedia As The Engine Of Application State (HATEOAS) is a constraint of the REST application architecture that distinguishes it from other network application architectures.
+ but (in my opinion), it doesn&amp;rsquo;t really explain much about how you are supposed to use it, or what the advantages (and disadvantages, if any) of using it are.</description>
+    </item>
+    
+    <item>
+      <title>Setting up Hugo on Github Pages</title>
+      <link>https://pulsejet.github.io/blog/posts/setting-up-hugo-on-github-pages/</link>
+      <pubDate>Sun, 18 Feb 2018 14:31:49 +0530</pubDate>
+      
+      <guid>https://pulsejet.github.io/blog/posts/setting-up-hugo-on-github-pages/</guid>
+      <description>At the time of writing this, this blog itself is hosted on GitHub Pages and is built with the static site generator Hugo, and since this is just the second post, I&amp;rsquo;ll go into some detail explaining how to setup Hugo properly (or at least the way I did it), which should be a matter of minutes even if you are not so experienced with these sort of things! If you follow the steps exactly, you&amp;rsquo;ll have a blog up and running in no time!</description>
+    </item>
+    
+    <item>
+      <title>My First Post</title>
+      <link>https://pulsejet.github.io/blog/posts/my-first-post/</link>
+      <pubDate>Sun, 18 Feb 2018 14:20:23 +0530</pubDate>
+      
+      <guid>https://pulsejet.github.io/blog/posts/my-first-post/</guid>
+      <description>Yup! This is indeed my very first post!
+I think its really intresting that you stumbled upon this, because I doubt it is going to be of much use to you! Nevertheless, I’m currently setting up this blog in Hugo, so everything here is in markdown, which I’m starting to really love!
+I guess I’ll make a separate post about my experience of setting up Hugo; maybe that will be more useful.</description>
+    </item>
+    
+  </channel>
+</rss>
