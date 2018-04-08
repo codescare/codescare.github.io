@@ -1,6 +1,6 @@
 # Code Scare
 
-Coding can be scary, but it isn't. This is my blog, create just for fun, with ❤.
+Coding can be scary, but it isn't. This is my blog, created just for fun, updated infrequently, written with ❤.
 
 [![Build Status](https://travis-ci.org/pulsejet/blog.svg?branch=master)](https://travis-ci.org/pulsejet/blog)
 
