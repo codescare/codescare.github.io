@@ -2,7 +2,7 @@
 
 Coding can be scary, but it isn't. This is my blog, create just for fun, with ❤.
 
-[![Build Status](https://travis-ci.org/pulsejet/pulsejet.github.io.svg?branch=master)](https://travis-ci.org/pulsejet/pulsejet.github.io)
+[![Build Status](https://travis-ci.org/pulsejet/blog.svg?branch=master)](https://travis-ci.org/pulsejet/blog)
 
 ## Thanks!
 A big `thank you` shout out to these, which may not be in relation to this repository
