@@ -1,0 +1,5 @@
+baseURL = "https://pulsejet.github.io/blog/"
+languageCode = "en-us"
+title = "Code Scare"
+theme = "cactusplus"
+publishDir = "built"

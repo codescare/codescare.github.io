@@ -1,0 +1,13 @@
+language: generic
+
+script:
+   - chmod 777 build.sh && ./build.sh
+
+deploy:
+  provider: pages
+  skip-cleanup: true
+  keep-history: true
+  github-token: $GITHUB_TOKEN
+  local-dir: built
+  on:
+    branch: master
