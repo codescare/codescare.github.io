@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en-us">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		
+		
+		
+		<meta name="generator" content="Hugo 0.38.1" />
+		<title>Continuously Deploy Hugo to GitHub Pages &middot; Code Scare</title>
+		<link rel="shortcut icon" href="https://pulsejet.github.io/blog/images/favicon.ico">
+		<link rel="stylesheet" href="https://pulsejet.github.io/blog/css/style.css">
+		<link rel="stylesheet" href="https://pulsejet.github.io/blog/css/highlight.css">
+
+		
+		<link rel="stylesheet" href="https://pulsejet.github.io/blog/css/monosocialiconsfont.css">
+		
+
+		
+
+		
+	</head>
+
+    <body>
+       <nav class="main-nav">
+	
+	
+		<a href='https://pulsejet.github.io/blog/'> <span class="arrow">←</span>Home</a>
+	
+	<a href='https://pulsejet.github.io/blog/posts'>Archive</a>
+	<a href='https://pulsejet.github.io/blog/tags'>Tags</a>
+	<a href='https://pulsejet.github.io/blog/about'>About</a>
+
+	
+
+	
+</nav>
+
+
+        <section id="wrapper" class="post">
+            <article>
+                <header>
+                    <h1>
+                        Continuously Deploy Hugo to GitHub Pages
+                    </h1>
+                    <h2 class="headline">
+                    Apr 9, 2018 13:00
+                    · 548 words
+                    · 3 minute read
+                      <span class="tags">
+                      
+                      </span>
+                    </h2>
+                </header>
+                
+                <section id="post-body">
+                    
+
+<p>I previously wrote on <a href="../setting-up-hugo-on-github-pages">setting up hugo on GitHub Pages</a>, but if you want to become slightly more ambitious and automate deployment to GitHub Pages with Hugo, read on! At the end of this post, you will never need to build before commiting again; just write in markdown and let <a href="https://travis-ci.org">Travis CI</a> take care of the rest!</p>
+
+<p><strong>A note:</strong> This blog is actually doing this, so if you want a live example of the result of this procedure, head over to <a href="https://github.com/pulsejet/blog">this GitHub repository</a>.</p>
+
+<h2 id="prerequisites">Prerequisites</h2>
+
+<p>I am assuming you have Hugo setup locally and can deploy to GitHub Pages manually, and that your site is, in fact, working. For this, I will also assume that you are running the site as a project website and not as a user or organizatin website. This means that your url must look something like <code>username.github.io/awesomeblog</code> and not <code>username.github.io</code>.</p>
+
+<h2 id="setting-up">Setting up</h2>
+
+<p>To begin with, create an account with Travis if you don&rsquo;t have one already. Next, go to the repositories area and activate your blog repository. Now click on settings, and enable <strong>Build only if .travis.yml is present</strong> for the repository.</p>
+
+<p>Now that Travis is all set to build for us, we need to tell it how to do that. For this, push the following as <code>.travis.yml</code> to your repository&rsquo;s root:</p>
+
+<pre><code>language: generic
+
+script:
+   - chmod +x build.sh &amp;&amp; ./build.sh
+
+deploy:
+  provider: pages
+  skip-cleanup: true
+  keep-history: true
+  github-token: $GITHUB_TOKEN
+  local-dir: built
+  on:
+    branch: master
+</code></pre>
+
+<p>So what is this doing?</p>
+
+<ol>
+<li>Set the <code>language</code> to <code>generic</code>, since we don&rsquo;t need any build environment.</li>
+<li>Run a build script to build our site.</li>
+<li>Finally, we make Travis push to our repository with the built files. Note here that the commits will take place in the <code>gh-pages</code> branch, so you will need to point your GitHub Pages to this branch. This can be done easily inside the repository&rsquo;s settings.</li>
+</ol>
+
+<p>A couple of notes:</p>
+
+<ul>
+<li>Set <code>keep-history</code> to <code>false</code> if you don&rsquo;t want history in your built pages branch.</li>
+<li>Travis will push the folder <code>built</code> as defined in <code>local-dir</code>, so you will need to adjust your <code>config.toml</code> to build to this directory.</li>
+<li>Make sure you have set <code>skip-cleanup</code> to <code>true</code>, or Travis will delete the built files!</li>
+</ul>
+
+<p>Next, we need to add the build script. This is pretty straightforward, and my <code>build.sh</code> looks something like this:</p>
+
+<pre><code>#!/bin/bash
+
+mkdir built
+wget https://github.com/gohugoio/hugo/releases/download/v0.38.1/hugo_0.38.1_Linux-64bit.tar.gz
+tar -xvzf hugo*.tar.gz
+./hugo
+</code></pre>
+
+<p>This simply downloads a fixed version of Hugo, extracts the tarball and builds the site. Again, the build path must be set to <code>built</code> in <code>config.toml</code>.</p>
+
+<p>Finally, we need to grant Travis permissions to push on our behalf. For this, go to GitHub and create a <a href="https://github.com/settings/tokens">personal access token</a>. Make sure you copy the token somewhere safe, since it will be displayed only once. If you are on a public repo, grant the token only <code>repo</code> permissions.</p>
+
+<p>Now go to the Travis dashboard, and into the settings for your repository. Here, create an environment variable named <code>GITHUB_TOKEN</code> with the value as the token you just created,and make sure that it is hidden in builds.</p>
+
+<h2 id="all-set">All Set!</h2>
+
+<p>And there you are! Just get rid of the built files from your <code>master</code> and push a change to GitHub. Travis should pull in your changes, build with Hugo and push back to <code>gh-pages</code> completing your continuous deployment!</p>
+
+                </section>
+            </article>
+
+            
+
+            
+
+            
+
+            <footer id="footer">
+    
+    <p class="small">
+    
+       © Copyright 2018 <i class="fa fa-heart" aria-hidden="true"></i> 
+    
+    </p>
+    <p class="small">
+        Powered by <a href="http://www.gohugo.io/">Hugo</a> Theme By <a href="https://github.com/nodejh/hugo-theme-cactus-plus">nodejh</a>
+    </p>
+</footer>
+
+        </section>
+
+        <script src="https://pulsejet.github.io/blog/js/jquery-3.3.1.min.js"></script>
+<script src="https://pulsejet.github.io/blog/js/main.js"></script>
+<script src="https://pulsejet.github.io/blog/js/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+
+
+
+
+
+
+    </body>
+</html>
