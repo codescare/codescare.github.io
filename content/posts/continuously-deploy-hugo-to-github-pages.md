@@ -4,7 +4,7 @@ date: 2018-04-09T13:00:08+05:30
 draft: false
 ---
 
-I previously wrote on [setting up hugo on GitHub Pages](../setting-up-hugo-on-github-pages), but if you want to become slightly more ambitious and automate deployment to GitHub Pages with Hugo, read on! At the end of this post, you will never need to build before commiting again; just write in markdown and let [Travis CI](https://travis-ci.org) take care of the rest!
+I previously wrote on [setting up Hugo on GitHub Pages](../setting-up-hugo-on-github-pages), but if you want to get slightly more ambitious and automate deployment to GitHub Pages,  read on! At the end of this post, you will never need to build before commiting again; just write in markdown and let [Travis CI](https://travis-ci.org) take care of the rest!
 
 **A note:** This blog is actually doing this, so if you want a live example of the result of this procedure, head over to [this GitHub repository](https://github.com/pulsejet/blog).
 
