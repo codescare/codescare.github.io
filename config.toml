@@ -4,3 +4,4 @@ title = "Code Scare"
 theme = "pickles"
 publishDir = "built"
 pygmentsCodeFences = true
+pygmentsOptions = "linenos=table"

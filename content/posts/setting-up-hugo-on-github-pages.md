@@ -22,48 +22,48 @@ Once you have an account, head over to GitHub again, and create a new repository
 
 ## Create the Website
 Inside the repository, you can now create a new site by running
-```
+```bash
 hugo new site mysite
 ```
 
 This will create a folder named `mysite` with a bunch of files that define our site. `cd` over to this folder.
 First, head over to `config.toml` and change `baseURL` as
-```
+```toml
 baseURL = "https://your-username.github.io/"
 ```
 
 ## Add a Theme
 For this example, I'll be using the [cactus-plus](https://github.com/nodejh/hugo-theme-cactus-plus) theme, which I think is very clean and tidy. Add this theme by running
-```
+```bash
 git submodule add https://github.com/nodejh/hugo-theme-cactus-plus themes/cactusplus
 ```
 
 You still need to update your site to use this theme. For this, add the following line to `config.toml`
-```
+```toml
 theme = "cactusplus"
 ```
 
 ## Add Some Content
 Next, we need to add a post to our site. For this, run the following command
-```
+```bash
 hugo new posts/my-first-post.md
 ```
 This will create a new file `contents/posts/my-first-post.md`. This is a regular markdown file that you can edit as you want, which has the contents of the post. Be sure not to accidentally delete the header in the file. For now, you may start by adding some dummy content. Note that this post is marked as a draft, so it won't be visible on the site.
 
 ## Try it out!
 Go back to the root directory of Hugo (the directory with `config.toml`) and run the following command
-```
+```bash
 hugo server -D
 ```
 This should start a local Hugo server, which the `-D` indicating that drafts should be visible. Head over to the URL that is printed, and the page will be served! Now you can start adding content to your posts and also add dozens of posts. When you save a post, the browser will automatically refresh it, so you can see live changes.
 
 ## Deploying it
 The last part is to publish the site to GitHub Pages. In config.toml, add the following line
-```
+```toml
 publishDir = ".."
 ```
 This will make Hugo output its files in the root of your repository, allowing GitHub Pages to serve it properly. Next, mark all posts you are satisfied with as completed by deleting the line `draft=true` from the header. To build your site, just run
-```
+```bash
 hugo
 ```
 and you're done! To see your blog in action, just commit and push to GitHub and visit **your-username.github.io**.

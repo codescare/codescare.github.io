@@ -16,7 +16,7 @@ I am assuming you have Hugo setup locally and can deploy to GitHub Pages manuall
 To begin with, create an account with Travis if you don't have one already. Next, go to the repositories area and activate your blog repository. Now click on settings, and enable **Build only if .travis.yml is present** for the repository.
 
 Now that Travis is all set to build for us, we need to tell it how to do that. For this, push the following as `.travis.yml` to your repository's root:
-```
+```yaml
 language: generic
 
 script:
@@ -45,7 +45,7 @@ A couple of notes:
 * Make sure you have set `skip-cleanup` to `true`, or Travis will delete the built files!
 
 Next, we need to add the build script. This is pretty straightforward, and my `build.sh` looks something like this:
-```
+```bash
 #!/bin/bash
 
 mkdir built
