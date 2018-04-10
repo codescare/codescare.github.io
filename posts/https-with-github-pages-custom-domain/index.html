@@ -4,16 +4,16 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1" />
   
-  <title>Continuously Deploy Hugo to GitHub Pages</title>
-  <meta property="og:title" content="Continuously Deploy Hugo to GitHub Pages" />
-  <meta name="twitter:title" content="Continuously Deploy Hugo to GitHub Pages" />
+  <title>HTTPS with Github Pages Custom Domain</title>
+  <meta property="og:title" content="HTTPS with Github Pages Custom Domain" />
+  <meta name="twitter:title" content="HTTPS with Github Pages Custom Domain" />
   
 
   
 
   <meta name="author" content=""/>
   <meta property="og:site_name" content="Code Scare" />
-  <meta property="og:url" content="https://pulsejet.github.io/blog/posts/continuously-deploy-hugo-to-github-pages/" />
+  <meta property="og:url" content="https://pulsejet.github.io/blog/posts/https-with-github-pages-custom-domain/" />
 
   
   <meta name="twitter:card" content="summary" />
@@ -46,12 +46,12 @@
 
 <article class="p-article">
   <header>
-    <h1>Continuously Deploy Hugo to GitHub Pages</h1>
+    <h1>HTTPS with Github Pages Custom Domain</h1>
     <div>
       <div class="c-time">
         Posted on
-        <time datetime="2018-04-09T13:00:08&#43;05:30">
-          Apr 9, 2018
+        <time datetime="2018-04-10T21:51:00&#43;05:30">
+          Apr 10, 2018
         </time>
       </div>
       
@@ -61,95 +61,35 @@
   <section id="js-article" class="p-article__body">
     
 
-<p>I previously wrote on <a href="../setting-up-hugo-on-github-pages">setting up Hugo on GitHub Pages</a>, but if you want to get slightly more ambitious and automate deployment to GitHub Pages,  read on! At the end of this post, you will never need to build before commiting again; just write in markdown and let <a href="https://travis-ci.org">Travis CI</a> take care of the rest!</p>
+<h2 id="background">Background</h2>
 
-<p><strong>A note:</strong> This blog is actually doing this, so if you want a live example of the result of this procedure, head over to <a href="https://github.com/pulsejet/blog">this GitHub repository</a>.</p>
+<p>GitHub Pages supports SSL for pages with <code>username.github.io</code>, but till now, there was no inherent support for SSL for custom domains. As soon as you added a custom domain, your site would be served over plain HTTP.</p>
 
-<h2 id="prerequisites">Prerequisites</h2>
+<h2 id="enter-enforce-https">Enter <code>Enforce HTTPS</code></h2>
 
-<p>I am assuming you have Hugo setup locally and can deploy to GitHub Pages manually, and that your site is, in fact, working. For this, I will also assume that you are running the site as a project website and not as a user or organizatin website. This means that your url must look something like <code>username.github.io/awesomeblog</code> and not <code>username.github.io</code>.</p>
+<p>Recently, GitHub added another option to the settings of repositories with GitHub Pages enabled, named <a href="https://help.github.com/articles/securing-your-github-pages-site-with-https/">Enforce HTTPS</a>. As the documentation states, this is applicable only for <code>github.io</code> sites, and doesn&rsquo;t work for custom domains. This option actually enables HSTS on your site, forcing it to be served via a secure channel.</p>
 
-<h2 id="setting-up">Setting up</h2>
+<h2 id="further-developements">Further Developements</h2>
 
-<p>To begin with, create an account with Travis if you don&rsquo;t have one already. Next, go to the repositories area and activate your blog repository. Now click on settings, and enable <strong>Build only if .travis.yml is present</strong> for the repository.</p>
+<p>Recently, however, as noted by some people at <a href="https://github.com/isaacs/github/issues/156">an issue tracking this</a> at the <a href="https://github.com/isaacs/github">unoffical GitHub support repo</a>, GitHub has started enabling this option for repos with custom domains too, using <a href="https://letsencrypt.org/">Let&rsquo;s Encrypt&rsquo;s</a> free SSL certificates. The way it works is that as soon as you enter a custom domain on a new site, GitHub tries to get an SSL certificate for it, and serves the website over HTTPS using this. This, though, seems to be a feature in staging, since it seems unavailable to old repos as of yet. I tried making a new GitHub Pages site, and the site was served for my custom domain successfully!</p>
 
-<p>Now that Travis is all set to build for us, we need to tell it how to do that. For this, push the following as <code>.travis.yml</code> to your repository&rsquo;s root:</p>
-<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
-<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 1
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 2
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 3
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 4
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 5
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 6
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 7
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 8
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79"> 9
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">10
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">11
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">12
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">13
-</span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml">language: generic
+<h2 id="so-what-about-old-sites">So what about old sites?</h2>
 
-script:
-   - chmod +x build.sh <span style="color:#75715e">&amp;&amp;</span> ./build.sh
-
-deploy:
-  provider: pages
-  skip-cleanup: <span style="color:#66d9ef">true</span>
-  keep-history: <span style="color:#66d9ef">true</span>
-  github-token: $GITHUB_TOKEN
-  local-dir: built
-  on:
-    branch: master</code></pre></td></tr></table>
-</div>
-</div>
-<p>So what is this doing?</p>
+<p>Well, this is not really of use to people with existing sites using custom domains, right? It turns out that there is an ugly hack to get this on your old site as well. Here&rsquo;s how I went about it:</p>
 
 <ol>
-<li>Set the <code>language</code> to <code>generic</code>, since we don&rsquo;t need any build environment.</li>
-<li>Run a build script to build our site.</li>
-<li>Finally, we make Travis push to our repository with the built files. Note here that the commits will take place in the <code>gh-pages</code> branch, so you will need to point your GitHub Pages to this branch. This can be done easily inside the repository&rsquo;s settings.</li>
+<li>Remove the <code>CNAME</code> file from the old repo.</li>
+<li>Make sure your DNS is directed directly to GitHub pages and not a CDN. Do this by creating a <code>CNAME</code> record for your domain pointing to <code>username.github.io</code>.</li>
+<li>Create a new repo with a different name.</li>
+<li>Push your files to this new repo. <strong>DO NOT</strong> push the <code>CNAME</code> file with this. If you push the <code>CNAME</code> file here, <code>Enforce HTTPS</code> gets disabled.</li>
+<li>Now go to settings for the new repo and enable GitHub Pages. Wait for the site to build and check.</li>
+<li>Now add a <code>CNAME</code> through the settings of the repo, by setting a custom domain.</li>
+<li>Wait for HTTPS to set up (takes ~2 minutes) and have fun!</li>
 </ol>
 
-<p>A couple of notes:</p>
+<h2 id="conclusion">Conclusion</h2>
 
-<ul>
-<li>Set <code>keep-history</code> to <code>false</code> if you don&rsquo;t want history in your built pages branch.</li>
-<li>Travis will push the folder <code>built</code> as defined in <code>local-dir</code>, so you will need to adjust your <code>config.toml</code> to build to this directory.</li>
-<li>Make sure you have set <code>skip-cleanup</code> to <code>true</code>, or Travis will delete the built files!</li>
-</ul>
-
-<p>Next, we need to add the build script. This is pretty straightforward, and my <code>build.sh</code> looks something like this:</p>
-<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
-<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">1
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">2
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">3
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">4
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">5
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7c7c79">6
-</span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e">#!/bin/bash
-</span><span style="color:#75715e"></span>
-mkdir built
-wget https://github.com/gohugoio/hugo/releases/download/v0.38.1/hugo_0.38.1_Linux-64bit.tar.gz
-tar -xvzf hugo*.tar.gz
-./hugo</code></pre></td></tr></table>
-</div>
-</div>
-<p>This simply downloads a fixed version of Hugo, extracts the tarball and builds the site. Again, the build path must be set to <code>built</code> in <code>config.toml</code>.</p>
-
-<p>Finally, we need to grant Travis permissions to push on our behalf. For this, go to GitHub and create a <a href="https://github.com/settings/tokens">personal access token</a>. Make sure you copy the token somewhere safe, since it will be displayed only once. If you are on a public repo, grant the token only <code>repo</code> permissions.</p>
-
-<p>Now go to the Travis dashboard, and into the settings for your repository. Here, create an environment variable named <code>GITHUB_TOKEN</code> with the value as the token you just created,and make sure that it is hidden in builds.</p>
-
-<h2 id="all-set">All Set!</h2>
-
-<p>And there you are! Just get rid of the built files from your <code>master</code> and push a change to GitHub. Travis should pull in your changes, build with Hugo and push back to <code>gh-pages</code> completing your continuous deployment!</p>
+<p>This is a really useful feature that will probably be useful to many people once it arrives in its fullest. HTTPS is often important not only for security, but other things like SEO, browser warnings and general user trust. Hope it arrives for everyone real soon! ❤ for GitHub Pages and Let&rsquo;s Encrypt!</p>
 
   </section>
   <footer>
@@ -158,12 +98,11 @@ tar -xvzf hugo*.tar.gz
       <div class="c-pagination__ctrl">
         <div class="c-pagination__newer">
           
-          <a href="https://pulsejet.github.io/blog/posts/https-with-github-pages-custom-domain/">Newer</a>
           
         </div>
         <div class="c-pagination__older">
           
-          <a href="https://pulsejet.github.io/blog/posts/hateoas/">Older</a>
+          <a href="https://pulsejet.github.io/blog/posts/continuously-deploy-hugo-to-github-pages/">Older</a>
           
         </div>
       </div>

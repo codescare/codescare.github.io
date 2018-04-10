@@ -6,10 +6,20 @@
     <description>Recent content in Posts on Code Scare</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 09 Apr 2018 13:00:08 +0530</lastBuildDate>
+    <lastBuildDate>Tue, 10 Apr 2018 21:51:00 +0530</lastBuildDate>
     
 	<atom:link href="https://pulsejet.github.io/blog/posts/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>HTTPS with Github Pages Custom Domain</title>
+      <link>https://pulsejet.github.io/blog/posts/https-with-github-pages-custom-domain/</link>
+      <pubDate>Tue, 10 Apr 2018 21:51:00 +0530</pubDate>
+      
+      <guid>https://pulsejet.github.io/blog/posts/https-with-github-pages-custom-domain/</guid>
+      <description>Background GitHub Pages supports SSL for pages with username.github.io, but till now, there was no inherent support for SSL for custom domains. As soon as you added a custom domain, your site would be served over plain HTTP.
+Enter Enforce HTTPS Recently, GitHub added another option to the settings of repositories with GitHub Pages enabled, named Enforce HTTPS. As the documentation states, this is applicable only for github.io sites, and doesn&amp;rsquo;t work for custom domains.</description>
+    </item>
     
     <item>
       <title>Continuously Deploy Hugo to GitHub Pages</title>
