@@ -7,7 +7,7 @@ draft: false
 ## Background
 GitHub Pages supports SSL for pages with `username.github.io`, but till now, there was no inherent support for SSL for custom domains. As soon as you added a custom domain, your site would be served over plain HTTP.
 
-## Enter `Enforce HTTPS`
+## Enter 'Enforce HTTPS'
 Recently, GitHub added another option to the settings of repositories with GitHub Pages enabled, named [Enforce HTTPS](https://help.github.com/articles/securing-your-github-pages-site-with-https/). As the documentation states, this is applicable only for `github.io` sites, and doesn't work for custom domains. This option actually enables HSTS on your site, forcing it to be served via a secure channel.
 
 ## Further Developements
