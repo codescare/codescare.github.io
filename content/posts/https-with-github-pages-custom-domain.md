@@ -11,9 +11,9 @@ GitHub Pages supports SSL for pages with `username.github.io`, but till now, the
 Recently, GitHub added another option to the settings of repositories with GitHub Pages enabled, named [Enforce HTTPS](https://help.github.com/articles/securing-your-github-pages-site-with-https/). As the documentation states, this is applicable only for `github.io` sites, and doesn't work for custom domains. This option actually enables HSTS on your site, forcing it to be served via a secure channel.
 
 ## Further Developements
-Recently, however, as noted by some people at [an issue tracking this](https://github.com/isaacs/github/issues/156) at the [unoffical GitHub support repo](https://github.com/isaacs/github), GitHub has started enabling this option for repos with custom domains too, using [Let's Encrypt's](https://letsencrypt.org/) free SSL certificates. The way it works is that as soon as you enter a custom domain on a new site, GitHub tries to get an SSL certificate for it, and serves the website over HTTPS using this. This, though, seems to be a feature in staging, since it seems unavailable to old repos as of yet. I tried making a new GitHub Pages site, and the site was served for my custom domain successfully!
+Recently, however, as noted by some people at [an issue tracking this](https://github.com/isaacs/github/issues/156) at the [unoffical GitHub support repo](https://github.com/isaacs/github), GitHub has started enabling this option for repos with custom domains too, using [Let's Encrypt's](https://letsencrypt.org/) free SSL certificates. The way it works is that as soon as you enter a custom domain on a new site, GitHub tries to get an SSL certificate for it, and serves the website over HTTPS using this. This, though, seems to be a feature in staging, since it seems unavailable to existing repos as of yet. I tried making a new GitHub Pages site, and the site was served for my custom domain with encryption successfully!
 
-## So what about old sites?
+## So what about existing websites?
 Well, this is not really of use to people with existing sites using custom domains, right? It turns out that there is an ugly hack to get this on your old site as well. Here's how I went about it:
 
 1. Remove the `CNAME` file from the old repo.
@@ -25,5 +25,7 @@ Well, this is not really of use to people with existing sites using custom domai
 7. Wait for HTTPS to set up (takes ~2 minutes) and have fun!
 
 ## Conclusion
-This is a really useful feature that will probably be useful to many people once it arrives in its fullest. HTTPS is often important not only for security, but other things like SEO, browser warnings and general user trust. Hope it arrives for everyone real soon! ❤ for GitHub Pages and Let's Encrypt!
+This is a really nice feature that will probably be useful for many people once it arrives in its fullest. HTTPS is often important not only for security, but other things like SEO, preventing browser warnings and general user trust. Hope it arrives for everyone real soon!
+
+### ❤ for GitHub Pages and Let's Encrypt!
 
