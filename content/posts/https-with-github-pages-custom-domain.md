@@ -4,7 +4,7 @@ date: 2018-04-10T21:51:00+05:30
 draft: false
 ---
 
-> **UPDATE** - Support is [oficially here!](https://blog.github.com/2018-05-01-github-pages-custom-domains-https/)!
+> **UPDATE** - Support is [officially here!](https://blog.github.com/2018-05-01-github-pages-custom-domains-https/)!
 
 ## Background
 GitHub Pages supports SSL for pages with `username.github.io`, but till now, there was no inherent support for SSL for custom domains. As soon as you added a custom domain, your site would be served over plain HTTP.
