@@ -126,9 +126,10 @@ with tf.Session(tpu_cluster) as sess:
 ```
 
 And that's it! On running the model now, it should train on the TPU if it exists in the network. To verify it actually worked, you can make three checks:
-1) CPU usage when not on TPU should be significantly higher.
-2) Your cloud console should show a minor CPU usage for your TPU (0.9% in my case).
-3) It should run *slower* (if you're running the code above). Since this is just a toy problem, the network latency and other overhead of transferring information between the instance and the TPU probably becomes the bottleneck here.
+
+* CPU usage when not on TPU should be significantly higher.
+* Your cloud console should show a minor CPU usage for your TPU (0.9% in my case).
+* It might run *slower* (if you're running the code above). Since this is just a toy problem, the network latency and other overhead of transferring information between the instance and the TPU probably becomes the bottleneck here.
 
 # CrossShardOptimizer
 
