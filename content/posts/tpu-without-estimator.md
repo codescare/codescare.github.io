@@ -9,6 +9,8 @@ However, if you glance at the documentation for using cloud TPUs with TensorFlow
 
 **Note:** If you're not familiar with the basics of Google Cloud, I encourage reading my post on [Google Cloud Basics](../google-cloud-basics) and/or other documentation/tutorials first.
 
+> **DISCLAIMER**: The author of this article is a 19 year old kid messing around with cloud infrastructure, i.e. me. I'm not responsible for anything bad that happens due to you doing any of this. Reader discretion is advised :)
+
 # A Simple Model
 
 I will be using a toy problem pragarized from [here](https://gist.github.com/vinhkhuc/e53a70f9e5c3f55852b0) to demonstrate how we can make it use TPUs with just a few additionaly lines of code. So here is a simple neural network. Note that I'm using TensorFlow 1.8, the latest version as of writing this.
