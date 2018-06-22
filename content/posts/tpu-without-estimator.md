@@ -7,6 +7,8 @@ If you're using Tensorflow to train a deep learning model that takes hours to ru
 
 However, if you glance at the documentation for using cloud TPUs with TensorFlow, you will find that Google always refers you to use the [Estimator](https://www.tensorflow.org/programmers_guide/estimators) API, which is a high level API built on top of the lower level [Graph and Session APIs](https://www.tensorflow.org/programmers_guide/low_level_intro). While it is advisable using this API since it probably *will* perform better than your code in low level APIs, being written with things such as TPUs in mind, but there are still situations where you may want a performance boost on your old code that uses the old low level APIs. So I'm going to quickly summarise below how I ran my old model with only a few lines of changes on a cloud TPU.
 
+**Note:** If you're not familiar with the basics of Google Cloud, I encourage reading my post on [Google Cloud Basics](../google-cloud-basics) and/or other documentation/tutorials first.
+
 # A Simple Model
 
 I will be using a toy problem pragarized from [here](https://gist.github.com/vinhkhuc/e53a70f9e5c3f55852b0) to demonstrate how we can make it use TPUs with just a few additionaly lines of code. So here is a simple neural network. Note that I'm using TensorFlow 1.8, the latest version as of writing this.
