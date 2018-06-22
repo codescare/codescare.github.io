@@ -159,6 +159,8 @@ tpu_function.get_tpu_context().set_number_of_shards(8)
 
 I don't recommend this at all, but it *might* work. Do let me know if you actually do this and it does/doesn't
 
+# Caveats
+Note that since you're doing everything yourself, you need to make sure of a couple of things. Firstly, you cannot write to local storage from TPU, so you need to either comment out all writes or use a cloud bucket for this. Secondly, do a sanity check first, since code might not behave the same and a couple of changes here and there might be required for everything to work (again, mostly related to files).
 
 # Conclusion
 So finally, you have your TensorFlow model with the low level APIs running on TPU. Hopefully, we will have some official instruction on how to do this once TPUs are no longer in beta, since after all, these APIs are far from deprecated.
