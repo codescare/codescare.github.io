@@ -54,6 +54,9 @@ Cloud shell is a feature of Google Cloud which lets you manage hardware, instanc
 # Snapshots
 Snapshots allow you to backup the entire state of a compute instance, you can restore the instance to the same state if anything goes bad. These are an especially useful feature of running stuff in the cloud when you are experimenting with things that could break your system.
 
+# Saving Costs
+To save costs and computing power, it is very important you shut down compute instances and other infrastructure such as T/GPUs when you're not using them. Not doing so will incur you significant charges and waste computing power for the rest of the world. Another thing you should do is to size your instances properly. For example, if you're running a single threaded application with high memory requirements, make sure you choose the high memory instance type to avoid being charged for the extra vCPUs which you will never use.
+
 # Conclusion
 Overall, this should be enough to get you started on understanding the documentation and getting some stuff done. I'll keep adding here if I feel I missed something important.
 
