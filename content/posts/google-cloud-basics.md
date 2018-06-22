@@ -53,3 +53,8 @@ Cloud shell is a feature of Google Cloud which lets you manage hardware, instanc
 
 # Snapshots
 Snapshots allow you to backup the entire state of a compute instance, you can restore the instance to the same state if anything goes bad. These are an especially useful feature of running stuff in the cloud when you are experimenting with things that could break your system.
+
+# Conclusion
+Overall, this should be enough to get you started on understanding the documentation and getting some stuff done. I'll keep adding here if I feel I missed something important.
+
+Happy Computing!
