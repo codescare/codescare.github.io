@@ -6,10 +6,20 @@
     <description>Recent content on Code Scare</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 10 Apr 2018 21:51:00 +0530</lastBuildDate>
+    <lastBuildDate>Fri, 22 Jun 2018 21:21:52 +0530</lastBuildDate>
     
 	<atom:link href="https://pulsejet.github.io/blog/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>TPU without Estimator</title>
+      <link>https://pulsejet.github.io/blog/posts/tpu-without-estimator/</link>
+      <pubDate>Fri, 22 Jun 2018 21:21:52 +0530</pubDate>
+      
+      <guid>https://pulsejet.github.io/blog/posts/tpu-without-estimator/</guid>
+      <description>If you&amp;rsquo;re using Tensorflow to train a deep learning model that takes hours to run on good hardware, chances are that you&amp;rsquo;ve heard of Google&amp;rsquo;s latest cloud offering - the Tensor Processing Unit (TPU). According to Google, these ASICs can be 15x to 30x faster than the hardware you are currently using.
+However, if you glance at the documentation for using cloud TPUs with TensorFlow, you will find that Google always refers you to use the Estimator API, which is a high level API built on top of the lower level Graph and Session APIs.</description>
+    </item>
     
     <item>
       <title>HTTPS with Github Pages Custom Domain</title>
