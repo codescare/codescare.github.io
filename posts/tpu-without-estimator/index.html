@@ -65,6 +65,12 @@
 
 <p>However, if you glance at the documentation for using cloud TPUs with TensorFlow, you will find that Google always refers you to use the <a href="https://www.tensorflow.org/programmers_guide/estimators">Estimator</a> API, which is a high level API built on top of the lower level <a href="https://www.tensorflow.org/programmers_guide/low_level_intro">Graph and Session APIs</a>. While it is advisable using this API since it probably <em>will</em> perform better than your code in low level APIs, being written with things such as TPUs in mind, but there are still situations where you may want a performance boost on your old code that uses the old low level APIs. So I&rsquo;m going to quickly summarise below how I ran my old model with only a few lines of changes on a cloud TPU.</p>
 
+<p><strong>Note:</strong> If you&rsquo;re not familiar with the basics of Google Cloud, I encourage reading my post on <a href="../google-cloud-basics">Google Cloud Basics</a> and/or other documentation/tutorials first.</p>
+
+<blockquote>
+<p><strong>DISCLAIMER</strong>: The author of this article is a 19 year old kid messing around with cloud infrastructure, i.e. me. I&rsquo;m not responsible for anything bad that happens due to you doing any of this. Reader discretion is advised :)</p>
+</blockquote>
+
 <h1 id="a-simple-model">A Simple Model</h1>
 
 <p>I will be using a toy problem pragarized from <a href="https://gist.github.com/vinhkhuc/e53a70f9e5c3f55852b0">here</a> to demonstrate how we can make it use TPUs with just a few additionaly lines of code. So here is a simple neural network. Note that I&rsquo;m using TensorFlow 1.8, the latest version as of writing this.</p>
@@ -290,10 +296,13 @@ tpu_cluster <span style="color:#f92672">=</span> TPUClusterResolver(
     sess<span style="color:#f92672">.</span>run(tpu<span style="color:#f92672">.</span>shutdown_system())</code></pre></td></tr></table>
 </div>
 </div>
-<p>And that&rsquo;s it! On running the model now, it should train on the TPU if it exists in the network. To verify it actually worked, you can make three checks:
-1) CPU usage when not on TPU should be significantly higher.
-2) Your cloud console should show a minor CPU usage for your TPU (0.9% in my case).
-3) It should run <em>slower</em> (if you&rsquo;re running the code above). Since this is just a toy problem, the network latency and other overhead of transferring information between the instance and the TPU probably becomes the bottleneck here.</p>
+<p>And that&rsquo;s it! On running the model now, it should train on the TPU if it exists in the network. To verify it actually worked, you can make three checks:</p>
+
+<ul>
+<li>CPU usage when not on TPU should be significantly higher.</li>
+<li>Your cloud console should show a minor CPU usage for your TPU (0.9% in my case).</li>
+<li>It might run <em>slower</em> (if you&rsquo;re running the code above). Since this is just a toy problem, the network latency and other overhead of transferring information between the instance and the TPU probably becomes the bottleneck here.</li>
+</ul>
 
 <h1 id="crossshardoptimizer">CrossShardOptimizer</h1>
 
@@ -343,6 +352,7 @@ tpu_function<span style="color:#f92672">.</span>get_tpu_context()<span style="co
       <div class="c-pagination__ctrl">
         <div class="c-pagination__newer">
           
+          <a href="https://pulsejet.github.io/blog/posts/google-cloud-basics/">Newer</a>
           
         </div>
         <div class="c-pagination__older">

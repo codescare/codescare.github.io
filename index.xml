@@ -6,10 +6,20 @@
     <description>Recent content on Code Scare</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 22 Jun 2018 21:21:52 +0530</lastBuildDate>
+    <lastBuildDate>Fri, 22 Jun 2018 22:59:25 +0530</lastBuildDate>
     
 	<atom:link href="https://pulsejet.github.io/blog/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Google Cloud Basics</title>
+      <link>https://pulsejet.github.io/blog/posts/google-cloud-basics/</link>
+      <pubDate>Fri, 22 Jun 2018 22:59:25 +0530</pubDate>
+      
+      <guid>https://pulsejet.github.io/blog/posts/google-cloud-basics/</guid>
+      <description>Documentation for cloud computing platforms such as Google Cloud, AWS or Azure can sometimes be hard to understand. I&amp;rsquo;ve tried to enlist a few features and explain them in short below.
+Compute Instances These are virtual machines running on physical servers in whichever region you choose running the OS of your choice (generally GNU/Linux). Since these are virtualized (or in some cases containerized), they run on vCPUs (virtual CPUs), which are slower than the hardware powering them, but fast enough nonetheless.</description>
+    </item>
     
     <item>
       <title>TPU without Estimator</title>
