@@ -39,7 +39,7 @@ You can now make a local directory and mount a bucket in it as follows. Note tha
 
 ```bash
 mkdir ~/mnt_bucket
-gcsfuse gec_data ~/my_bucket
+gcsfuse my_bucket ~/mnt_bucket
 ```
 
 This will mount the bucket `my_bucket` in the folder `mnt_bucket` in your home directory. You can now access this like any other folder, with `gcsfuse` doing all the magic. Note that the bucket might have to be in the same project and region for this to work. To unmount the bucket when you're done, just run,
