@@ -113,7 +113,7 @@ sudo apt-get install gcsfuse</code></pre></td></tr></table>
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;">
 <pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">mkdir ~/mnt_bucket
-gcsfuse gec_data ~/my_bucket</code></pre></td></tr></table>
+gcsfuse my_bucket ~/mnt_bucket</code></pre></td></tr></table>
 </div>
 </div>
 <p>This will mount the bucket <code>my_bucket</code> in the folder <code>mnt_bucket</code> in your home directory. You can now access this like any other folder, with <code>gcsfuse</code> doing all the magic. Note that the bucket might have to be in the same project and region for this to work. To unmount the bucket when you&rsquo;re done, just run,</p>
