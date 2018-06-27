@@ -45,7 +45,7 @@ gcsfuse my_bucket ~/mnt_bucket
 This will mount the bucket `my_bucket` in the folder `mnt_bucket` in your home directory. You can now access this like any other folder, with `gcsfuse` doing all the magic. Note that the bucket might have to be in the same project and region for this to work. To unmount the bucket when you're done, just run,
 
 ```bash
-fusermount -u my_bucket/
+fusermount -u ~/mnt_bucket/
 ```
 
 Note: If you don't see some folders in the bucket after mounting, but they are visible in your browser, just run `mkdir name_of_folder` and the folder should become visible. This is a bug due to there being no real concept of a folder in the internal workings of blob storage.
